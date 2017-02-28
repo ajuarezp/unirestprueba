@@ -1,0 +1,35 @@
+
+<div>
+    <h2><span data-translate="unirestpruebaApp.loan.detail.title">Loan</span> {{vm.loan.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row jh-entity-details">
+        <dt><span data-translate="unirestpruebaApp.loan.nombre">Nombre</span></dt>
+        <dd>
+            <span>{{vm.loan.nombre}}</span>
+        </dd>
+        <dt><span data-translate="unirestpruebaApp.loan.monto">Monto</span></dt>
+        <dd>
+            <span>{{vm.loan.monto}}</span>
+        </dd>
+        <dt><span data-translate="unirestpruebaApp.loan.banco">Banco</span></dt>
+        <dd>
+            <span>{{vm.loan.banco}}</span>
+        </dd>
+        <dt><span data-translate="unirestpruebaApp.loan.fecha">Fecha</span></dt>
+        <dd>
+            <span>{{vm.loan.fecha | date:'mediumDate'}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="loan-detail.edit({id:vm.loan.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

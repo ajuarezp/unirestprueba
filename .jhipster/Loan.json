@@ -1,0 +1,27 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "nombre",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "monto",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "banco",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "fecha",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "changelogDate": "20170228021041",
+    "dto": "mapstruct",
+    "service": "serviceClass",
+    "entityTableName": "loan",
+    "pagination": "pager"
+}
