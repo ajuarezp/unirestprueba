@@ -3,10 +3,9 @@ package com.hopware.unirestprueba;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hopware.unirestprueba.config.ApplicationProperties;
 import com.hopware.unirestprueba.config.DefaultProfileUtil;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hopware.unirestprueba.domain.Loan;
 import com.hopware.unirestprueba.service.dto.LoanDTO;
-import com.mashape.unirest.http.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
@@ -95,32 +94,27 @@ public class UnirestpruebaApp {
             env.getProperty("server.port"),
             env.getActiveProfiles());
 
-
-
-//        //Agregar throw IOException y JsonProcessingException
-        Unirest.setObjectMapper(new ObjectMapper() {
-            private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
-                = new com.fasterxml.jackson.databind.ObjectMapper();
-
-            public <T> T readValue(String value, Class<T> valueType) {
-                try {
-                    return jacksonObjectMapper.readValue(value, valueType);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
-
-
-            public String writeValue(Object value) {
-                try {
-                    return jacksonObjectMapper.writeValueAsString(value);
-                } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-
+//////        //Agregar throw IOException y JsonProcessingException
+//        Unirest.setObjectMapper(new ObjectMapper() {
+//            private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
+//                = new com.fasterxml.jackson.databind.ObjectMapper();
+//
+//            public <T> T readValue(String value, Class<T> valueType) {
+//                try {
+//                    return jacksonObjectMapper.readValue(value, valueType);
+//                } catch (IOException e) {
+//                   throw new RuntimeException(e);
+//                }
+//            }
+//
+//            public String writeValue(Object value) {
+//               try {
+//                    return jacksonObjectMapper.writeValueAsString(value);
+//                } catch (JsonProcessingException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        });
 
         try{
 
@@ -132,15 +126,18 @@ public class UnirestpruebaApp {
 //                .asString();
 
 //
-            HttpResponse<Object> response1 = Unirest.get("http://localhost:8080/api/loans/1")
-                .asObject(Object.class);
+            ObjectMapper mapper = new ObjectMapper();
+            HttpResponse<JsonNode> loanResponse = Unirest.get("http://localhost:8080/api/loans/1")
+                .asJson();
 
-            Object obj = response1.getBody();
-            obj.
+            LoanDTO obj2 = mapper.readValue(loanResponse.getBody().toString(), LoanDTO.class);
 
-            System.out.println("-djasljdjsakdksajdkhsdhshdjsghdgsjdg;ojd;sajdjsa-");
-
-            System.out.println(objL);
+            System.out.println(loanResponse.getBody());
+            //LoanDTO obj = response1.getBody();
+//
+//            System.out.println("-djasljdjsakdksajdkhsdhshdjsghdgsjdg;ojd;sajdjsa-");
+//
+//            System.out.println("");
 
 //                HttpResponse<LoanDTO[]> response = Unirest.get("http://localhost:8080/api/loans").asObject(LoanDTO[].class);
 //                LoanDTO[] books = response.getBody();
@@ -150,7 +147,6 @@ public class UnirestpruebaApp {
         }catch (UnirestException o){
             throw o;
         }
-//
 //
 //        Unirest.setObjectMapper(response1).writeValue(Loan.class);
 //
@@ -169,12 +165,6 @@ public class UnirestpruebaApp {
 ////            .header("Content-Type", "application/json")
 ////            .body(loanObject)
 ////            .asJson();
-//
-//
-//
-//
-
-
 
     }
 }
