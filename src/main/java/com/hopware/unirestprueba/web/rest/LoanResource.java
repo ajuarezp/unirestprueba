@@ -61,10 +61,6 @@ public class LoanResource {
             .body(result);
     }
 
-    @PostMapping("/procesar")
-
-
-
     /**
      * PUT  /loans : Updates an existing loan.
      *

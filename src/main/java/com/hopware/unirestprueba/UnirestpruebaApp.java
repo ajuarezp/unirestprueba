@@ -116,7 +116,6 @@ public class UnirestpruebaApp {
 //            }
 //        });
 
-<<<<<<< HEAD
         try{
 
 //            HttpResponse<String> response = Unirest.post("http://localhost:8080/api/loans")
@@ -166,7 +165,6 @@ public class UnirestpruebaApp {
 ////            .header("Content-Type", "application/json")
 ////            .body(loanObject)
 ////            .asJson();
-=======
 //        try{
 ////            HttpResponse<JsonNode> jsonResponse = Unirest.post("http://httpbin.org/post")
 ////                .header("accept", "application/json")
@@ -182,7 +180,6 @@ public class UnirestpruebaApp {
 //        }catch (UnirestException o){
 //            throw o;
 //        }
->>>>>>> refs/remotes/origin/unirest-component
 
     }
 }

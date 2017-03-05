@@ -30,7 +30,7 @@ public class RequestComponent {
     private final Logger log = LoggerFactory.getLogger(RequestComponent.class);
 
 
-    public String   init(String type){
+    public String init(String type){
         String result = "";
         ObjectMapper mapper = new ObjectMapper();
         LoanDTO testLoan = new LoanDTO();
@@ -62,7 +62,7 @@ public class RequestComponent {
                 testLoan.setBanco("BAC");
                 testLoan.setFecha(null);
                 testLoan.setMonto(200D);
-                testLoan.setNombre("Douglas Final Test");
+                testLoan.setNombre("Douglas Final Test 1234");
                 testLoan.setId(id);
 
                 try {
@@ -103,10 +103,7 @@ public class RequestComponent {
         String result = "";
         try {
             log.debug("Doing unirest call");
-            HttpResponse<String> mainResponse = Unirest.put(requestDTO.getUrl())
-                .headers(requestDTO.getHeaders())
-                .body(requestDTO.getBody())
-                .asString();
+            HttpResponse<String> mainResponse = Unirest.put(requestDTO.getUrl()).headers(requestDTO.getHeaders()).body(requestDTO.getBody()).asString();
             result = mainResponse.getBody();
             log.debug("unirest call done");
         } catch (UnirestException e) {
