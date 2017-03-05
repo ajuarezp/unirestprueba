@@ -90,24 +90,21 @@ public class UnirestpruebaApp {
             env.getActiveProfiles());
 
 
-        try{
-//            HttpResponse<JsonNode> jsonResponse = Unirest.post("http://httpbin.org/post")
-//                .header("accept", "application/json")
-//                .queryString("apiKey", "123")
-//                .field("parameter", "value")
-//                .field("foo", "bar").asJson();
-
-            HttpResponse<String> response = Unirest.get("http://localhost:8080/api/loans")
-                .header("cache-control", "no-cache")
-                .header("postman-token", "cd20beeb-56d0-c4fb-ce05-2eb63c0f897c")
-                .asString();
-            System.out.println(response.getBody());
-        }catch (UnirestException o){
-            throw o;
-        }
-
-
-
+//        try{
+////            HttpResponse<JsonNode> jsonResponse = Unirest.post("http://httpbin.org/post")
+////                .header("accept", "application/json")
+////                .queryString("apiKey", "123")
+////                .field("parameter", "value")
+////                .field("foo", "bar").asJson();
+//
+//            HttpResponse<String> response = Unirest.get("http://localhost:8080/api/loans")
+//                .header("cache-control", "no-cache")
+//                .header("postman-token", "cd20beeb-56d0-c4fb-ce05-2eb63c0f897c")
+//                .asString();
+//            System.out.println(response.getBody());
+//        }catch (UnirestException o){
+//            throw o;
+//        }
 
     }
 }

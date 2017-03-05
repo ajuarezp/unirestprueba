@@ -5,6 +5,7 @@ import com.hopware.unirestprueba.components.RequestComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,8 +23,11 @@ public class UnirestResource {
 
     private final RequestComponent requestComponent;
 
-    public UnirestResource(RequestComponent requestComponent) {
+    private final LoanResource loan;
+
+    public UnirestResource(RequestComponent requestComponent, LoanResource loan) {
         this.requestComponent = requestComponent;
+        this.loan = loan;
     }
 
     @GetMapping("/start")
@@ -31,6 +35,14 @@ public class UnirestResource {
     public String testRequestComponentCall(HttpServletRequest request) {
         log.debug("Starting test request call");
         //DTO SHOULD BE HERE AS A PARAMETER
-        return requestComponent.init();
+        return requestComponent.init(request.getMethod());
+    }
+
+    @PutMapping("/start")
+    @Timed
+    public String testRequestComponentCallPut(HttpServletRequest request) {
+        log.debug("Starting test request call");
+        //DTO SHOULD BE HERE AS A PARAMETER
+    return requestComponent.init(request.getMethod());
     }
 }
