@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class LoanService {
 
     private final Logger log = LoggerFactory.getLogger(LoanService.class);
-    
+
     private final LoanRepository loanRepository;
 
     private final LoanMapper loanMapper;
@@ -49,7 +49,7 @@ public class LoanService {
 
     /**
      *  Get all the loans.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
