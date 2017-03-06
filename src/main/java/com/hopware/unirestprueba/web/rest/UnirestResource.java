@@ -42,4 +42,13 @@ public class UnirestResource {
         //DTO SHOULD BE HERE AS A PARAMETER
     return requestComponent.init(request.getMethod());
     }
+
+    @GetMapping("/start")
+    @Timed
+    public String testRequestComponentCallGet(HttpServletRequest request) {
+        log.debug("Starting test request call");
+        //DTO SHOULD BE HERE AS A PARAMETER
+        return requestComponent.init(request.getMethod());
+    }
+
 }
