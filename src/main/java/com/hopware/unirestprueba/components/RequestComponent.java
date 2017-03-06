@@ -76,6 +76,19 @@ public class RequestComponent {
                 log.debug("Making put call");
                 result = makePutCall(requestDTO);
                 break;
+
+            case "GET":
+                long loanId = 1;
+                testLoan.setId(loanId);
+                try {
+                    requestDTO.setUrl("http://localhost:8080/api/loans/" + loanId);
+                    requestDTO.setHeaders( new HashMap<String, String>() {{ put("content-type","application/json"); put("accept","application/json"); }} );
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                result = makeGetCall(requestDTO);
+                break;
         }
 
         log.debug(result);
@@ -109,6 +122,18 @@ public class RequestComponent {
         } catch (UnirestException e) {
             e.printStackTrace();
             log.debug("unable to make unirest call");
+        }
+
+        return result;
+    }
+
+    private String makeGetCall(RequestDTO requestDTO) {
+        String result = "";
+        try {
+            HttpResponse<String> mainResponse = Unirest.get(requestDTO.getUrl()).headers(requestDTO.getHeaders()).asString();
+            result = mainResponse.getBody();
+        } catch (UnirestException e) {
+            e.printStackTrace();
         }
 
         return result;
