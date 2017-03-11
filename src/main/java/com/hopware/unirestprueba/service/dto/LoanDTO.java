@@ -1,5 +1,9 @@
 package com.hopware.unirestprueba.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.time.LocalDate;
 import java.io.Serializable;
 import java.util.Objects;
