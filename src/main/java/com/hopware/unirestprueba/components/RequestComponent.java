@@ -35,7 +35,7 @@ public class RequestComponent{
     ObjectMapperGson objectgson = new ObjectMapperGson();
 
 
-    public String   init(String type){
+    public String init(String type){
         String result = "";
 
         switch (type){
@@ -80,6 +80,19 @@ public class RequestComponent{
                 log.debug("Making put call");
                  result = makePutCall(requestDTO);
                 break;
+
+            case "GET":
+                long loanId = 1;
+                testLoan.setId(loanId);
+                try {
+                    requestDTO.setUrl("http://localhost:8080/api/loans/" + loanId);
+                    requestDTO.setHeaders( new HashMap<String, String>() {{ put("content-type","application/json"); put("accept","application/json"); }} );
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                result = makeGetCall(requestDTO);
+                break;
         }
 
         log.debug(result);
@@ -107,15 +120,24 @@ public class RequestComponent{
         String result = "";
         try {
             log.debug("Doing unirest call");
-            HttpResponse<String> mainResponse = Unirest.put(requestDTO.getUrl())
-                .headers(requestDTO.getHeaders())
-                .body(requestDTO.getBody())
-                .asString();
+            HttpResponse<String> mainResponse = Unirest.put(requestDTO.getUrl()).headers(requestDTO.getHeaders()).body(requestDTO.getBody()).asString();
             result = mainResponse.getBody();
             log.debug("unirest call done");
         } catch (UnirestException e) {
             e.printStackTrace();
             log.debug("unable to make unirest call");
+        }
+
+        return result;
+    }
+
+    private String makeGetCall(RequestDTO requestDTO) {
+        String result = "";
+        try {
+            HttpResponse<String> mainResponse = Unirest.get(requestDTO.getUrl()).headers(requestDTO.getHeaders()).asString();
+            result = mainResponse.getBody();
+        } catch (UnirestException e) {
+            e.printStackTrace();
         }
 
         return result;

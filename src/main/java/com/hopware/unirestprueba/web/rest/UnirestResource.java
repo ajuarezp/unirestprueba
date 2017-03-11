@@ -4,10 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.hopware.unirestprueba.components.RequestComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,7 +27,7 @@ public class UnirestResource {
         this.loan = loan;
     }
 
-    @GetMapping("/start")
+    @PostMapping("/start")
     @Timed
     public String testRequestComponentCall(HttpServletRequest request) {
         log.debug("Starting test request call");
@@ -45,4 +42,13 @@ public class UnirestResource {
         //DTO SHOULD BE HERE AS A PARAMETER
     return requestComponent.init(request.getMethod());
     }
+
+    @GetMapping("/start")
+    @Timed
+    public String testRequestComponentCallGet(HttpServletRequest request) {
+        log.debug("Starting test request call");
+        //DTO SHOULD BE HERE AS A PARAMETER
+        return requestComponent.init(request.getMethod());
+    }
+
 }

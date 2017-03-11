@@ -1,8 +1,11 @@
 package com.hopware.unirestprueba;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hopware.unirestprueba.config.ApplicationProperties;
 import com.hopware.unirestprueba.config.DefaultProfileUtil;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hopware.unirestprueba.domain.Loan;
+import com.hopware.unirestprueba.service.dto.LoanDTO;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
@@ -21,8 +24,10 @@ import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
+import springfox.documentation.spring.web.json.Json;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -68,7 +73,7 @@ public class UnirestpruebaApp {
      * @param args the command line arguments
      * @throws UnknownHostException if the local host name could not be resolved into an address
      */
-    public static void main(String[] args) throws UnknownHostException, Exception, UnirestException {
+    public static void main(String[] args) throws UnknownHostException, Exception, UnirestException, IOException, JsonProcessingException {
         SpringApplication app = new SpringApplication(UnirestpruebaApp.class);
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
@@ -89,7 +94,77 @@ public class UnirestpruebaApp {
             env.getProperty("server.port"),
             env.getActiveProfiles());
 
+//////        //Agregar throw IOException y JsonProcessingException
+//        Unirest.setObjectMapper(new ObjectMapper() {
+//            private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
+//                = new com.fasterxml.jackson.databind.ObjectMapper();
+//
+//            public <T> T readValue(String value, Class<T> valueType) {
+//                try {
+//                    return jacksonObjectMapper.readValue(value, valueType);
+//                } catch (IOException e) {
+//                   throw new RuntimeException(e);
+//                }
+//            }
+//
+//            public String writeValue(Object value) {
+//               try {
+//                    return jacksonObjectMapper.writeValueAsString(value);
+//                } catch (JsonProcessingException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        });
 
+        try{
+
+//            HttpResponse<String> response = Unirest.post("http://localhost:8080/api/loans")
+//                .header("content-type", "application/json")
+//                .header("cache-control", "no-cache")
+//                .header("postman-token", "0a068148-d303-f06c-0085-b7a223384f37")
+//                .body("  {\n    \"nombre\": \"cuarenta\",\n    \"monto\": 12,\n    \"banco\": \"bcr\",\n    \"fecha\": \"2017-02-08\"\n  }")
+//                .asString();
+
+//
+            ObjectMapper mapper = new ObjectMapper();
+            HttpResponse<JsonNode> loanResponse = Unirest.get("http://localhost:8080/api/loans/1")
+                .asJson();
+
+            LoanDTO obj2 = mapper.readValue(loanResponse.getBody().toString(), LoanDTO.class);
+
+            System.out.println(loanResponse.getBody());
+            //LoanDTO obj = response1.getBody();
+//
+//            System.out.println("-djasljdjsakdksajdkhsdhshdjsghdgsjdg;ojd;sajdjsa-");
+//
+//            System.out.println("");
+
+//                HttpResponse<LoanDTO[]> response = Unirest.get("http://localhost:8080/api/loans").asObject(LoanDTO[].class);
+//                LoanDTO[] books = response.getBody();
+//                System.out.println(books);
+
+
+        }catch (UnirestException o){
+            throw o;
+        }
+//
+//        Unirest.setObjectMapper(response1).writeValue(Loan.class);
+//
+//        // Response to Object
+//    HttpResponse<Loan> bookResponse = Unirest.get("http://http://localhost:8080/#/loan/loan/2").asObject(Loan.class);
+//        Loan loanObject = bookResponse.getBody();
+//
+//        HttpResponse<Loan> authorResponse = Unirest.get("http://httpbin.org/books/{id}/author")
+//            .routeParam("id", loanObject.getId().toString())
+//            .asObject(Loan.class);
+//
+//        Author authorObject = authorResponse.getBody();
+////
+////        HttpResponse<JsonNode> postResponse = Unirest.post("http://httpbin.org/authors/post")
+////            .header("accept", "application/json")
+////            .header("Content-Type", "application/json")
+////            .body(loanObject)
+////            .asJson();
 //        try{
 ////            HttpResponse<JsonNode> jsonResponse = Unirest.post("http://httpbin.org/post")
 ////                .header("accept", "application/json")

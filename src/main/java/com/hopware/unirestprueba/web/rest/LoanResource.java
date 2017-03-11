@@ -55,6 +55,7 @@ public class LoanResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new loan cannot already have an ID")).body(null);
         }
         LoanDTO result = loanService.save(loanDTO);
+        System.out.println(result);
         return ResponseEntity.created(new URI("/api/loans/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
