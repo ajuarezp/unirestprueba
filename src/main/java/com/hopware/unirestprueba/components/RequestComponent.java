@@ -3,10 +3,13 @@ package com.hopware.unirestprueba.components;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hopware.unirestprueba.domain.RequestDTO;
+import com.hopware.unirestprueba.domain.UserQuentiDTO;
 import com.hopware.unirestprueba.service.dto.LoanDTO;
 import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -33,6 +36,7 @@ public class RequestComponent{
     LoanDTO testLoan = new LoanDTO();
     RequestDTO requestDTO = new RequestDTO();
     ObjectMapperGson objectgson = new ObjectMapperGson();
+    UserQuentiDTO testUserQuenti = new UserQuentiDTO();
 
 
     public String init(String type){
@@ -40,17 +44,29 @@ public class RequestComponent{
 
         switch (type){
 
+            //"username": "Hopware","password": "C3nf0t3c","userIPAddress": "127.0.0.1","userClientId": "Hopware"
             case "POST":
-                testLoan.setBanco("banco");
-                testLoan.setFecha(LocalDate.now());
-                testLoan.setMonto(2500D);
-                testLoan.setNombre("Douglas Test Loan");
+                testUserQuenti.setUsername("Hopware");
+                testUserQuenti.setPassword("C3nf0t3c");
+                testUserQuenti.setUserIPAddress("127.0.0.1");
+                testUserQuenti.setUserClientId("Hopware");
+//                testLoan.setBanco("banco");
+//                testLoan.setFecha(LocalDate.now());
+//                testLoan.setMonto(2500D);
+//                testLoan.setNombre("Douglas Test Loan");
+
 
                 try {
 
-                    requestDTO.setUrl("http://localhost:8080/api/loans");
+                    requestDTO.setUrl("http://quenti-usrmgmti.cloudapp.net/users/login");
+                    requestDTO.setBody(mapper.writeValueAsString(testUserQuenti));
                     requestDTO.setHeaders( new HashMap<String, String>() {{ put("content-type","application/json"); put("accept","application/json"); }} );
-                    requestDTO.setBody(mapper.writeValueAsString(testLoan));
+//                    requestDTO.setBody("{'username': 'Hopware','password': 'C3nf0t3c','userIPAddress': '127.0.0.1','userClientId': 'Hopware'}");
+//                    requestDTO.setUrl("http://localhost:8080/api/loans");
+//                    requestDTO.setHeaders( new HashMap<String, String>() {{ put("content-type","application/json"); put("accept","application/json"); }} );
+//                    requestDTO.setBody(mapper.writeValueAsString(testLoan));
+
+
 
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
@@ -100,12 +116,14 @@ public class RequestComponent{
     }
 
     private String makePostCall(RequestDTO testDTO) {
-
         String result = "";
         try {
             log.debug("Doing unirest call");
-            HttpResponse<String> mainResponse = Unirest.post(testDTO.getUrl()).headers(testDTO.getHeaders()).body(testDTO.getBody()).asString();
-            result = mainResponse.getBody();
+            HttpResponse<JsonNode> mainResponse = Unirest.post(requestDTO.getUrl()).headers(requestDTO.getHeaders()).body(requestDTO.getBody()).asJson();
+            //UserQuentiDTO lto = mainResponse.getBody();
+            JSONObject obj = (JSONObject) mainResponse.getBody().getObject().get("apiResult");
+            JSONObject data = (JSONObject) obj.get("data");
+            System.out.println(data.getString("sessionKey"));
             log.debug("unirest call done");
         } catch (UnirestException e) {
             e.printStackTrace();
